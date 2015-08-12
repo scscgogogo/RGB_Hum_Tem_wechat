@@ -181,11 +181,12 @@
                 // 显示湿度
                 $("#humiid").text(msgjson.dht11_humidity+'%');
                 // 温度超过29则红灯亮，20-29之间则绿灯亮，低于20黄灯亮
-                if(tempval > "29"){
+                if(tempval > "39"){
                     led_red();
                     $("#rgbimgid").attr("src", "./image/02-red.svg");
-                }else if(tempval < "30" && (tempval > "19")){
-                    led_green();
+                }else if(tempval < "40" && (tempval > "19")){
+                    //led_green();
+                    led_unknown();
                     $("#rgbimgid").attr("src", "./image/02-green.svg");
                 }else if(tempval < "20"){
                     led_yellow();
@@ -220,6 +221,12 @@
         function led_green() {
             var topic = device_id+'/in';
             var commond = '{"rgbled_switch":true,"rgbled_hues":120, "rgbled_saturation":100, "rgbled_brightness":100}'; 
+            client.publish(topic, commond);
+        }
+
+         function led_unknown() {
+            var topic = device_id+'/in';
+            var commond = '{"rgbled_switch":true,"rgbled_hues":20, "rgbled_saturation":100, "rgbled_brightness":100}'; 
             client.publish(topic, commond);
         }
 
